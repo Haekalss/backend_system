@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // MongoDB Connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://violasptntels:viola230904@webservice.taltm16.mongodb.net/gis_database';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/gis_database';
 
 mongoose.connect(MONGODB_URI)
 .then(() => console.log('✅ MongoDB Connected Successfully'))
@@ -43,13 +43,11 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Start server (untuk development)
-if (!process.env.VERCEL) {
-  const PORT = process.env.PORT || 3001;
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`📍 API available at http://localhost:${PORT}`);
-  });
-}
+// Start server
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📍 API available at http://localhost:${PORT}`);
+});
 
 module.exports = app;
